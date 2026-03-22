@@ -11,7 +11,7 @@ torch
 sentence-transformers
 numpy
 scikit-learn
-
+groq
 
 psycopg2-binary
 
