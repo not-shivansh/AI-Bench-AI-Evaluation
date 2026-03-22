@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIBench – AI Benchmarking Dashboard</title>
+    <meta name="description" content="AIBench: Generate AI responses, evaluate them with NLP metrics, and benchmark performance in real time.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ── Ambient Background ─────────────────────────── -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ── Navigation ─────────────────────────────────── -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <rect x="2" y="2" width="24" height="24" rx="6" stroke="url(#brand-grad)" stroke-width="2.5"/>
+                    <path d="M9 14L13 18L19 10" stroke="url(#brand-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="brand-grad" x1="2" y1="2" x2="26" y2="26">
+                            <stop stop-color="#818cf8"/>
+                            <stop offset="1" stop-color="#c084fc"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <span class="brand-name">AIBench</span>
+            <span class="brand-badge">v1.0</span>
+        </div>
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-section="playground" id="tab-playground">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Playground
+            </button>
+            <button class="nav-tab" data-section="dashboard" id="tab-dashboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </button>
+            <button class="nav-tab" data-section="history" id="tab-history">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                History
+            </button>
+        </div>
+        <div class="nav-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span class="status-text" id="status-text">Connecting…</span>
+        </div>
+    </nav>
+
+    <!-- ── Main Content ───────────────────────────────── -->
+    <main class="main-content">
+
+        <!-- ── PLAYGROUND SECTION ─────────────────────── -->
+        <section class="section section-active" id="section-playground">
+            <div class="section-header">
+                <h1>AI Playground</h1>
+                <p>Generate AI responses and see real-time evaluation scores</p>
+            </div>
+
+            <div class="playground-grid">
+                <!-- Input Panel -->
+                <div class="card card-input">
+                    <div class="card-header">
+                        <h2>Prompt</h2>
+                        <span class="card-badge">Input</span>
+                    </div>
+                    <div class="card-body">
+                        <textarea
+                            id="prompt-input"
+                            class="prompt-textarea"
+                            placeholder="Enter your prompt here… e.g. 'Explain quantum computing in simple terms'"
+                            rows="6"
+                        ></textarea>
+                        <div class="input-footer">
+                            <span class="char-count" id="char-count">0 characters</span>
+                            <button class="btn btn-primary" id="btn-generate">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                Generate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="card card-output">
+                    <div class="card-header">
+                        <h2>Response</h2>
+                        <span class="card-badge badge-ai">AI Output</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="response-area" id="response-area">
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                </div>
+                                <p>AI response will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scores Panel -->
+                <div class="card card-scores" id="scores-panel" style="display:none;">
+                    <div class="card-header">
+                        <h2>Evaluation</h2>
+                        <span class="card-badge badge-score">Scores</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="score-final" id="score-final">
+                            <div class="score-ring">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="52" class="ring-bg"/>
+                                    <circle cx="60" cy="60" r="52" class="ring-progress" id="ring-progress"/>
+                                </svg>
+                                <span class="score-value" id="score-value">0.00</span>
+                            </div>
+                            <span class="score-label">Final Score</span>
+                        </div>
+                        <div class="score-breakdown">
+                            <div class="score-item">
+                                <div class="score-item-header">
+                                    <span>Semantic Similarity</span>
+                                    <span class="score-num" id="sc-semantic">0.00</span>
+                                </div>
+                                <div class="score-bar"><div class="score-fill" id="bar-semantic"></div></div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-item-header">
+                                    <span>Keyword Relevance</span>
+                                    <span class="score-num" id="sc-keyword">0.00</span>
+                                </div>
+                                <div class="score-bar"><div class="score-fill fill-keyword" id="bar-keyword"></div></div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-item-header">
+                                    <span>Latency</span>
+                                    <span class="score-num" id="sc-latency">0 ms</span>
+                                </div>
+                                <div class="score-bar"><div class="score-fill fill-latency" id="bar-latency"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── DASHBOARD SECTION ──────────────────────── -->
+        <section class="section" id="section-dashboard">
+            <div class="section-header">
+                <h1>Metrics Dashboard</h1>
+                <p>Aggregated performance stats across all requests</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card" id="metric-total">
+                    <div class="metric-icon icon-total">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <div class="metric-info">
+                        <span class="metric-value" id="mv-total">—</span>
+                        <span class="metric-label">Total Requests</span>
+                    </div>
+                </div>
+                <div class="metric-card" id="metric-score">
+                    <div class="metric-icon icon-score">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <div class="metric-info">
+                        <span class="metric-value" id="mv-score">—</span>
+                        <span class="metric-label">Avg. Score</span>
+                    </div>
+                </div>
+                <div class="metric-card" id="metric-latency">
+                    <div class="metric-icon icon-latency">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div class="metric-info">
+                        <span class="metric-value" id="mv-latency">—</span>
+                        <span class="metric-label">Avg. Latency</span>
+                    </div>
+                </div>
+                <div class="metric-card" id="metric-uptime">
+                    <div class="metric-icon icon-uptime">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="metric-info">
+                        <span class="metric-value status-online" id="mv-uptime">Online</span>
+                        <span class="metric-label">API Status</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── HISTORY SECTION ────────────────────────── -->
+        <section class="section" id="section-history">
+            <div class="section-header">
+                <div>
+                    <h1>Request History</h1>
+                    <p>Browse all past AI generations and their evaluations</p>
+                </div>
+                <button class="btn btn-secondary" id="btn-refresh">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    Refresh
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="history-table" id="history-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prompt</th>
+                            <th>Score</th>
+                            <th>Semantic</th>
+                            <th>Keyword</th>
+                            <th>Latency</th>
+                            <th>Status</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <!-- Rows injected by JS -->
+                    </tbody>
+                </table>
+                <div class="empty-state" id="history-empty">
+                    <div class="empty-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <p>No requests yet. Head to the Playground to generate your first response!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ── Loading Overlay ────────────────────────────── -->
+    <div class="loading-overlay" id="loading-overlay" style="display:none;">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <span>Generating response…</span>
+        </div>
+    </div>
+
+    <!-- ── Toast Container ────────────────────────────── -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
