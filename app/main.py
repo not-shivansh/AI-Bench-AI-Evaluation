@@ -26,13 +26,14 @@ logger = logging.getLogger(__name__)
 # ── Lifespan ───────────────────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Run startup / shutdown tasks."""
-    logger.info("Initializing database…")
-    init_db()
-    logger.info("AIBench is ready 🚀")
-    yield
-    logger.info("Shutting down AIBench…")
+    try:
+        logger.info("Initializing database…")
+        init_db()
+        logger.info("✅ DB connected")
+    except Exception as e:
+        logger.warning(f"⚠️ DB skipped: {e}")
 
+    yield
 
 # ── App ────────────────────────────────────────────────────
 app = FastAPI(
