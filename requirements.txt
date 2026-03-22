@@ -5,9 +5,15 @@ pydantic
 pydantic-settings
 python-dotenv
 
+
+transformers
+torch
+sentence-transformers
 numpy
 scikit-learn
 
+
 psycopg2-binary
+
+
 tenacity
-groq
