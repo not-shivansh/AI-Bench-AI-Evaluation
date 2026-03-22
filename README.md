@@ -203,12 +203,6 @@ docker-compose up --build
 
 ---
 
-## 💬 Interview Pitch (Use This 🔥)
-
-> “I built AIBench, a full-stack AI benchmarking platform that uses Groq’s LLaMA models for fast inference and evaluates responses using a hybrid NLP-based scoring engine with real-time analytics.”
-
----
-
 ## 🚀 Future Improvements
 
 * 🔁 RLHF-based feedback learning
@@ -221,7 +215,7 @@ docker-compose up --build
 ## 👨‍💻 Author
 
 **Shivansh Thakur**
-Linkedin: [https://linkedin.com/in/thakur-shivansh](https://linkedin.com/in/thakur-shivansh)
+[Linkedin](https://linkedin.com/in/thakur-shivansh)
 
 ---
 
@@ -229,13 +223,3 @@ Linkedin: [https://linkedin.com/in/thakur-shivansh](https://linkedin.com/in/thak
 
 Give it a ⭐ and share 🚀
 
-## Tech Stack
-
-| Layer       | Technology                          |
-|-------------|-------------------------------------|
-| Framework   | FastAPI                             |
-| AI          | Groq API (llama-3.1-8b-instant)     |
-| NLP         | sentence-transformers, scikit-learn |
-| Database    | SQLite (dev) / PostgreSQL (prod)    |
-| ORM         | SQLAlchemy                          |
-| Frontend    | Vanilla HTML/CSS/JS (dark theme)    |
