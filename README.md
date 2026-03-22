@@ -84,6 +84,22 @@ Dashboard + Analytics
 
 ---
 
+## 📸 Screenshots
+
+### 🧪 Playground
+<img width="2880" height="1332" alt="image" src="https://github.com/user-attachments/assets/97f869c5-3a2c-4487-afe9-7f2e071487fa" />
+
+<img width="2828" height="1322" alt="image" src="https://github.com/user-attachments/assets/14e8f17e-c04f-4786-bcff-4d9bfd7944d1" />
+
+
+### 📊 Dashboard
+<img width="2878" height="1304" alt="image" src="https://github.com/user-attachments/assets/a11bbd31-d32b-4b5a-95cf-19f610c18f83" />
+
+
+### 🗂️ History
+<img width="2820" height="1322" alt="image" src="https://github.com/user-attachments/assets/3f513e7b-f1ff-4618-a90b-075cc8926dd6" />
+
+
 ## 🛠️ Tech Stack
 
 | Layer      | Technology                          |
